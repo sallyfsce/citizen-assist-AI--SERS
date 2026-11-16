@@ -1,0 +1,134 @@
+[
+  {  
+    "id": 1,  
+    "categoria": "Trabalho",  
+    "titulo": "Obter a Carteira de Trabalho Digital",  
+    "palavras_chave": ["carteira de trabalho", "carteira de trabalho digital", "ctps", "carteira digital", "carteira azul"],  
+    "resposta": "A Carteira de Trabalho é digital e fica ligada ao seu CPF. Para usar, entre no app Carteira de Trabalho Digital ou no site gov.br com a sua conta gov.br. É gratuito.",  
+    "documentos": ["CPF", "Conta gov.br"],  
+    "onde": "App Carteira de Trabalho Digital ou site gov.br",  
+    "fonte": "https://www.gov.br/pt-br/servicos/obter-a-carteira-de-trabalho",  
+    "verificado_em": "A CONFERIR"  
+  },  
+  {  
+    "id": 2,  
+    "categoria": "Documentos",  
+    "titulo": "Criar a conta gov.br",  
+    "palavras_chave": ["conta gov", "gov br", "govbr", "login gov", "senha gov", "acesso gov"],  
+    "resposta": "A conta gov.br é o login único para usar serviços do governo na internet. Dá para criar pelo app gov.br ou pelo site, informando o CPF e seguindo as etapas de confirmação.",  
+    "documentos": ["CPF", "Celular ou e-mail para confirmação"],  
+    "onde": "App gov.br ou site gov.br",  
+    "fonte": "https://www.gov.br",  
+    "verificado_em": "A CONFERIR"  
+  },  
+  {  
+    "id": 3,  
+    "categoria": "Documentos",  
+    "titulo": "Fazer o CPF",  
+    "palavras_chave": ["cpf", "tirar cpf", "fazer cpf", "inscricao no cpf", "cadastro de pessoa fisica"],  
+    "resposta": "O CPF é o número que identifica você em bancos, empregos e serviços do governo. A inscrição pode ser feita pelo site da Receita Federal ou em locais que atendem a Receita. Confira no site oficial se há alguma cobrança.",  
+    "documentos": ["Certidão de nascimento ou documento de identidade"],  
+    "onde": "Site da Receita Federal ou locais de atendimento da Receita",  
+    "fonte": "https://www.gov.br/receitafederal",  
+    "verificado_em": "A CONFERIR"  
+  },  
+  {  
+    "id": 4,  
+    "categoria": "Cidadania e Benefícios",  
+    "titulo": "Tirar o título de eleitor",  
+    "palavras_chave": ["titulo de eleitor", "titulo eleitoral", "tirar titulo", "votar", "voto", "cartorio eleitoral"],  
+    "resposta": "O voto é opcional para quem tem 16 ou 17 anos e obrigatório a partir dos 18. Para tirar o título, use o serviço Título Net no site do TSE ou procure um cartório eleitoral.",  
+    "documentos": ["Documento oficial com foto", "Comprovante de residência"],  
+    "onde": "Site do TSE (Título Net) ou cartório eleitoral",  
+    "fonte": "https://www.tse.jus.br",  
+    "verificado_em": "A CONFERIR"  
+  },  
+  {  
+    "id": 5,  
+    "categoria": "Cidadania e Benefícios",  
+    "titulo": "Usar o e-Título (título digital)",  
+    "palavras_chave": ["e titulo", "etitulo", "titulo digital", "titulo no celular", "app e titulo"],  
+    "resposta": "O e-Título é o título de eleitor no celular. Baixe o aplicativo oficial e siga as etapas para ativar. Ele também ajuda a consultar a sua situação eleitoral.",  
+    "documentos": ["Título de eleitor"],  
+    "onde": "Aplicativo e-Título (Android e iOS)",  
+    "fonte": "https://www.tse.jus.br",  
+    "verificado_em": "A CONFERIR"  
+  },  
+  {  
+    "id": 6,  
+    "categoria": "Documentos",  
+    "titulo": "Fazer a Carteira de Identidade (RG)",  
+    "palavras_chave": ["rg", "carteira de identidade", "identidade", "cin", "segunda via do rg", "documento de identidade"],  
+    "resposta": "A Carteira de Identidade é emitida pelo órgão de identificação do seu estado. Procure o site do órgão para ver como agendar e quais documentos levar.",  
+    "documentos": ["Certidão de nascimento ou casamento", "CPF"],  
+    "onde": "Órgão de identificação do seu estado",  
+    "fonte": "https://www.gov.br",  
+    "verificado_em": "A CONFERIR"  
+  },  
+  {  
+    "id": 7,  
+    "categoria": "Trabalho",  
+    "titulo": "Pedir o seguro-desemprego",  
+    "palavras_chave": ["seguro desemprego", "fui demitido", "demitido", "demissao", "desemprego"],  
+    "resposta": "O seguro-desemprego é um benefício para quem foi demitido sem justa causa e cumpre as regras. Existe tempo mínimo de trabalho e prazo para pedir. Confira as regras no site oficial e faça o pedido pelo app Carteira de Trabalho Digital ou pelo gov.br.",  
+    "documentos": ["CPF", "Conta gov.br", "Documentos da demissão"],  
+    "onde": "App Carteira de Trabalho Digital ou site gov.br",  
+    "fonte": "https://www.gov.br/trabalho-e-emprego",  
+    "verificado_em": "A CONFERIR"  
+  },  
+  {  
+    "id": 8,  
+    "categoria": "Cidadania e Benefícios",  
+    "titulo": "Consultar o FGTS",  
+    "palavras_chave": ["fgts", "fundo de garantia", "saldo do fgts", "saldo fgts"],  
+    "resposta": "O FGTS é um dinheiro que o empregador deposita todo mês para o trabalhador com carteira assinada. Você pode consultar o saldo no aplicativo FGTS, da Caixa.",  
+    "documentos": ["CPF"],  
+    "onde": "Aplicativo FGTS ou agência da Caixa",  
+    "fonte": "https://www.caixa.gov.br",  
+    "verificado_em": "A CONFERIR"  
+  },  
+  {  
+    "id": 9,  
+    "categoria": "Trabalho",  
+    "titulo": "Conhecer seus direitos com carteira assinada",  
+    "palavras_chave": ["direitos", "carteira assinada", "ferias", "13o", "decimo terceiro", "clt", "salario"],  
+    "resposta": "Quem trabalha com carteira assinada (CLT) tem direitos como salário, férias, 13º salário e depósito do FGTS. Os detalhes dependem do seu contrato. Em caso de dúvida, procure os canais do Ministério do Trabalho e Emprego ou o sindicato da sua categoria.",  
+    "documentos": [],  
+    "onde": "Ministério do Trabalho e Emprego ou sindicato da sua categoria",  
+    "fonte": "https://www.gov.br/trabalho-e-emprego",  
+    "verificado_em": "A CONFERIR"  
+  },  
+  {  
+    "id": 10,  
+    "categoria": "Trabalho",  
+    "titulo": "Denunciar problemas no trabalho",  
+    "palavras_chave": ["denunciar", "denuncia", "sem carteira assinada", "trabalho irregular", "empregador nao paga", "assedio"],  
+    "resposta": "Se a empresa não assina a carteira, não paga o que deve ou há irregularidades no trabalho, é possível registrar uma denúncia nos canais oficiais do Ministério do Trabalho e Emprego. Em situação de risco, procure também a polícia.",  
+    "documentos": [],  
+    "onde": "Canais de atendimento do Ministério do Trabalho e Emprego",  
+    "fonte": "https://www.gov.br/trabalho-e-emprego",  
+    "verificado_em": "A CONFERIR"  
+  },  
+  {  
+    "id": 11,  
+    "categoria": "Cidadania e Benefícios",  
+    "titulo": "Usar o Meu INSS",  
+    "palavras_chave": ["inss", "meu inss", "aposentadoria", "contribuicao", "previdencia"],  
+    "resposta": "O Meu INSS é o aplicativo e site do INSS, onde você consulta contribuições e pede serviços sem sair de casa. Faça login com a conta gov.br.",  
+    "documentos": ["CPF", "Conta gov.br"],  
+    "onde": "App ou site Meu INSS",  
+    "fonte": "https://meu.inss.gov.br",  
+    "verificado_em": "A CONFERIR"  
+  },  
+  {  
+    "id": 12,  
+    "categoria": "Trabalho",  
+    "titulo": "Procurar vagas de emprego (Emprega Brasil)",  
+    "palavras_chave": ["vaga", "vagas", "procurar emprego", "buscar emprego", "primeiro emprego", "emprego", "sine"],  
+    "resposta": "O Emprega Brasil reúne serviços do governo para quem procura trabalho, como vagas de emprego. Você acessa com a conta gov.br, pelo app ou pelo site.",  
+    "documentos": ["CPF", "Conta gov.br"],  
+    "onde": "App ou site Emprega Brasil",  
+    "fonte": "https://www.gov.br/trabalho-e-emprego",  
+    "verificado_em": "A CONFERIR"  
+  }  
+]
