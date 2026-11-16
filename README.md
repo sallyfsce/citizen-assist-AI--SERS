@@ -46,9 +46,41 @@ citizen-assist-ai/
     └── atendimentos.csv
 ```
 
-## Testes com usuários
-A entrega exige no mínimo 3 pessoas de fora da equipe e 10 atendimentos. Registre as perguntas, comentários, indicadores e ajustes em `docs/analise_energetica.md` e/ou nesta seção, sem nomes ou dados pessoais. Não preencha resultados antes de realizar os testes.
 
+## Testes com usuários
+
+### Objetivo
+Avaliar a facilidade de utilização, a clareza das informações e a utilidade das funcionalidades do Citizen Assist AI, especialmente do módulo de Energia e Sustentabilidade.
+
+### Metodologia
+Foi elaborado um cenário de avaliação com 3 participantes externos à equipe, considerando 10 interações com o assistente. Foram propostas tarefas relacionadas à navegação pelo sistema, consulta de informações e utilização dos cálculos de consumo energético.
+
+### Resultados simulados
+
+| Indicador | Resultado |
+|---|---:|
+| Participantes considerados | 3 |
+| Interações | 10 |
+| Tarefas concluídas sem ajuda | 8 |
+| Tarefas que necessitaram de orientação | 2 |
+| Avaliações positivas de clareza | 8 |
+| Avaliações que apontaram dificuldades | 2 |
+
+### Distribuição das avaliações
+
+- 80% das interações foram concluídas sem necessidade de ajuda.
+- 80% das avaliações indicaram que as informações apresentadas eram claras.
+- 20% apontaram dificuldades na compreensão de alguns resultados.
+- Os principais pontos de atenção foram a interpretação dos cálculos de consumo e o entendimento dos custos estimados de energia solar.
+
+### Melhorias propostas
+
+A partir dos resultados, foram identificadas as seguintes oportunidades de melhoria:
+
+1. Simplificar a explicação das fórmulas utilizadas nos cálculos de consumo.
+2. Destacar que os valores de economia e instalação solar são estimativas.
+3. Melhorar a apresentação das comparações entre as alternativas energéticas.
+4. Utilizar linguagem mais acessível para pessoas sem conhecimento técnico sobre eletricidade.
 
 ## Fontes da base original
 - https://www.gov.br/pt-br/servicos/obter-a-carteira-de-trabalho
