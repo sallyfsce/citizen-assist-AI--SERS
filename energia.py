@@ -1,102 +1,218 @@
-"""Módulo didático de energia e sustentabilidade do Citizen Assist AI.
+"""Módulo interativo de análise energética do Citizen Assist AI.
 
-Os valores-padrão são um cenário estimado e editável, não uma proposta comercial.
+Os cálculos são estimativas educacionais. Tarifas e custos devem ser
+substituídos por dados reais antes de uma decisão de compra ou instalação.
 """
 
-# Cenário de referência: 5 lâmpadas incandescentes de 60 W substituídas por LED de 9 W.
+# Premissas editáveis do cenário de referência
 QUANTIDADE_LAMPADAS = 5
 POTENCIA_ANTIGA_W = 60
 POTENCIA_LED_W = 9
 HORAS_DIA = 5
 DIAS_MES = 30
-TARIFA_R_KWH = 0.75468  # média residencial Sudeste, MME/ANEEL, dez/2025
+TARIFA_R_KWH = 0.75468
 
-# Sistema FV: aproximação didática. O dimensionamento real depende do endereço,
-# orientação/inclinação, sombras, perdas, distribuidora e regras de compensação.
+# Hipóteses para estimativa fotovoltaica (não constituem orçamento)
 PRODUTIVIDADE_KWH_KWP_MES = 130.0
-PRECO_SISTEMA_R_WP = 3.62  # Greener, sistema residencial 2 kWp, jun/2026
+PRECO_SISTEMA_R_WP = 3.62
+PRECO_LED_UNIDADE = 10.0
 
 
 def consumo_mensal(potencia_w, horas_dia, dias_mes=30, quantidade=1):
-    """Retorna kWh/mês: potência (W) × horas/dia × dias × quantidade / 1000."""
+    """Calcula consumo em kWh/mês."""
     return potencia_w * horas_dia * dias_mes * quantidade / 1000
 
 
-def analisar():
-    antigo = consumo_mensal(POTENCIA_ANTIGA_W, HORAS_DIA, DIAS_MES, QUANTIDADE_LAMPADAS)
-    led = consumo_mensal(POTENCIA_LED_W, HORAS_DIA, DIAS_MES, QUANTIDADE_LAMPADAS)
-    economia = antigo - led
-    economia_reais = economia * TARIFA_R_KWH
+def analisar(quantidade=QUANTIDADE_LAMPADAS,
+             potencia_antiga_w=POTENCIA_ANTIGA_W,
+             potencia_led_w=POTENCIA_LED_W,
+             horas_dia=HORAS_DIA,
+             dias_mes=DIAS_MES,
+             tarifa=TARIFA_R_KWH):
+    """Calcula o cenário LED e a estimativa solar para a mesma iluminação."""
+    consumo_antigo = consumo_mensal(
+        potencia_antiga_w, horas_dia, dias_mes, quantidade
+    )
+    consumo_led = consumo_mensal(
+        potencia_led_w, horas_dia, dias_mes, quantidade
+    )
+    economia = max(consumo_antigo - consumo_led, 0)
+    economia_reais = economia * tarifa
+    custo_led = quantidade * PRECO_LED_UNIDADE
+    retorno_led = custo_led / economia_reais if economia_reais > 0 else None
 
-    # Potência FV teórica para compensar a energia economizada no cenário de iluminação.
-    potencia_fv_kwp = economia / PRODUTIVIDADE_KWH_KWP_MES
-    potencia_fv_wp = potencia_fv_kwp * 1000
-    custo_fv_estimado = potencia_fv_wp * PRECO_SISTEMA_R_WP
-    retorno_fv_meses = custo_fv_estimado / economia_reais if economia_reais else None
-
-    # Estimativa ilustrativa de aquisição das cinco lâmpadas LED a R$ 10 cada.
-    custo_led_estimado = QUANTIDADE_LAMPADAS * 10.0
-    retorno_led_meses = custo_led_estimado / economia_reais if economia_reais else None
+    # Referência comparável: dimensionar FV para gerar a mesma quantidade
+    # de energia que seria economizada pela troca para LED.
+    potencia_fv_kwp = (
+        economia / PRODUTIVIDADE_KWH_KWP_MES
+        if PRODUTIVIDADE_KWH_KWP_MES > 0 else 0
+    )
+    custo_fv = potencia_fv_kwp * 1000 * PRECO_SISTEMA_R_WP
+    economia_solar_reais = economia * tarifa
+    retorno_fv = (
+        custo_fv / economia_solar_reais
+        if economia_solar_reais > 0 else None
+    )
 
     return {
-        "consumo_antigo_kwh_mes": antigo,
-        "consumo_led_kwh_mes": led,
+        "consumo_antigo_kwh_mes": consumo_antigo,
+        "consumo_led_kwh_mes": consumo_led,
         "economia_kwh_mes": economia,
-        "economia_percentual": economia / antigo * 100 if antigo else 0,
+        "economia_percentual": (
+            economia / consumo_antigo * 100 if consumo_antigo > 0 else 0
+        ),
         "economia_reais_mes": economia_reais,
+        "custo_led_estimado": custo_led,
+        "retorno_led_meses": retorno_led,
         "potencia_fv_kwp": potencia_fv_kwp,
         "geracao_fv_kwh_mes": economia,
-        "custo_led_estimado": custo_led_estimado,
-        "retorno_led_meses": retorno_led_meses,
-        "custo_fv_estimado": custo_fv_estimado,
-        "retorno_fv_meses": retorno_fv_meses,
+        "custo_fv_estimado": custo_fv,
+        "economia_solar_reais_mes": economia_solar_reais,
+        "retorno_fv_meses": retorno_fv,
     }
 
 
+def _ler_decimal(mensagem, minimo, maximo, inteiro=False):
+    """Lê número aceitando vírgula decimal e valida limites."""
+    while True:
+        texto = input(mensagem).strip().replace(",", ".")
+        try:
+            valor_float = float(texto)
+            if not minimo <= valor_float <= maximo:
+                raise ValueError
+            if inteiro:
+                if not valor_float.is_integer():
+                    raise ValueError
+                return int(valor_float)
+            return valor_float
+        except ValueError:
+            unidade = "um número inteiro" if inteiro else "um número"
+            print(f"Entrada inválida. Digite {unidade} entre {minimo} e {maximo}.")
+
+
+def _formatar_retorno(meses):
+    return f"{meses:.1f} meses" if meses is not None else "não calculável"
+
+
+def exibir_resultado(r, quantidade, potencia_antiga, potencia_led,
+                     horas, dias, tarifa):
+    print("\n=== RESULTADO DA ANÁLISE ENERGÉTICA ===")
+    print("\nDADOS INFORMADOS")
+    print(f"Quantidade de lâmpadas: {quantidade}")
+    print(f"Potência antiga: {potencia_antiga} W por lâmpada")
+    print(f"Potência LED: {potencia_led} W por lâmpada")
+    print(f"Uso diário: {horas:g} hora(s)")
+    print(f"Período: {dias} dias/mês")
+    print(f"Tarifa informada: R$ {tarifa:.4f}/kWh")
+
+    print("\n1. CONSUMO E EFICIÊNCIA ENERGÉTICA")
+    print(f"Consumo antes da troca: {r['consumo_antigo_kwh_mes']:.2f} kWh/mês")
+    print(f"Consumo com LED: {r['consumo_led_kwh_mes']:.2f} kWh/mês")
+    print(f"Redução estimada: {r['economia_kwh_mes']:.2f} kWh/mês "
+          f"({r['economia_percentual']:.1f}%)")
+    print(f"Economia financeira estimada: R$ {r['economia_reais_mes']:.2f}/mês")
+    print(f"Custo ilustrativo das LEDs: R$ {r['custo_led_estimado']:.2f}")
+    print("Retorno simples estimado da troca: "
+          f"{_formatar_retorno(r['retorno_led_meses'])}")
+
+    print("\n2. ALTERNATIVA RENOVÁVEL: ENERGIA SOLAR FOTOVOLTAICA")
+    print("A estimativa considera gerar a mesma quantidade de energia "
+          "que seria economizada pela troca para LED.")
+    print(f"Energia de referência: {r['geracao_fv_kwh_mes']:.2f} kWh/mês")
+    print(f"Potência fotovoltaica teórica: {r['potencia_fv_kwp']:.3f} kWp")
+    print(f"Custo fotovoltaico indicativo: R$ {r['custo_fv_estimado']:.2f}")
+    print(f"Valor de energia potencialmente compensada: "
+          f"R$ {r['economia_solar_reais_mes']:.2f}/mês")
+    print("Retorno simples ilustrativo: "
+          f"{_formatar_retorno(r['retorno_fv_meses'])}")
+
+    print("\n3. COMPARAÇÃO E RECOMENDAÇÃO")
+    print("- LED: tende a exigir investimento inicial menor e reduz o consumo "
+          "diretamente no equipamento.")
+    print("- Solar: utiliza fonte renovável para gerar energia, mas exige "
+          "projeto, área adequada e investimento inicial maior.")
+    print("- Para uma primeira medida de baixo custo, avaliar a substituição "
+          "por LED e hábitos de uso consciente.")
+    print("- A viabilidade solar depende de análise do imóvel e da distribuidora.")
+
+    print("\n4. PREMISSAS E LIMITAÇÕES")
+    print("- O cálculo usa potência nominal, horas de uso e dias informados.")
+    print("- O custo LED usa hipótese de R$ 10,00 por unidade; substitua por cotação.")
+    print(f"- Solar: produtividade hipotética de "
+          f"{PRODUTIVIDADE_KWH_KWP_MES:.0f} kWh/kWp/mês.")
+    print(f"- Solar: custo de referência de R$ {PRECO_SISTEMA_R_WP:.2f}/Wp, "
+          "extrapolado; não é orçamento.")
+    print("- Não considera tributos, bandeiras, custo de disponibilidade, "
+          "Fio B, manutenção, financiamento, degradação ou sazonalidade.")
+    print("- A geração real varia conforme localidade, orientação, inclinação, "
+          "sombras e perdas do sistema.")
+    print("- A economia na conta não é necessariamente igual ao valor calculado, "
+          "pois a fatura possui outros componentes.")
+    print("\n5. REFERÊNCIAS PARA CONFERÊNCIA")
+    print("- ANEEL — tarifas por distribuidora: "
+          "https://www.gov.br/aneel/pt-br/centrais-de-conteudos/relatorios-e-indicadores/tarifas-e-informacoes-economico-financeiras")
+    print("- CRESESB/CEPEL — SunData: "
+          "https://www.cresesb.cepel.br/index.php?section=sundata")
+    print("- INPE — Atlas Brasileiro de Energia Solar: "
+          "https://www.gov.br/pt-br/servicos/obter-dados-do-atlas-brasileiro-de-energia-solar-atlas-solar")
+    print("\nAviso: resultados educacionais estimados, não garantias de economia, "
+          "geração ou retorno.")
+
+
+def _coletar_dados():
+    print("\nInforme os dados da iluminação. Use valores da sua residência "
+          "ou o cenário que deseja simular.")
+    quantidade = _ler_decimal("Quantidade de lâmpadas: ", 1, 100, inteiro=True)
+    potencia_antiga = _ler_decimal(
+        "Potência de cada lâmpada atual (W): ", 1, 500
+    )
+    potencia_led = _ler_decimal(
+        "Potência de cada lâmpada LED (W): ", 1, 200
+    )
+    horas = _ler_decimal("Horas de uso por dia (0,1 a 24): ", 0.1, 24)
+    dias = _ler_decimal("Dias de uso por mês (1 a 31): ", 1, 31, inteiro=True)
+    tarifa = _ler_decimal(
+        "Tarifa de energia em R$/kWh (veja sua conta): ", 0.01, 10
+    )
+    return quantidade, potencia_antiga, potencia_led, horas, dias, tarifa
+
+
 def exibir():
-    r = analisar()
-    print("\n=== ENERGIA E SUSTENTABILIDADE ===")
-    print("Público: jovens no primeiro emprego e suas famílias, buscando reduzir a conta de luz.")
-    print("Necessidade analisada: iluminação de cinco pontos por cinco horas ao dia.")
-    print("\nCENÁRIO DE CONSUMO (estimado)")
-    print(f"5 lâmpadas de 60 W: {r['consumo_antigo_kwh_mes']:.2f} kWh/mês")
-    print(f"5 lâmpadas LED de 9 W: {r['consumo_led_kwh_mes']:.2f} kWh/mês")
-    print(f"Redução: {r['economia_kwh_mes']:.2f} kWh/mês ({r['economia_percentual']:.1f}%)")
-    print(f"Economia estimada: R$ {r['economia_reais_mes']:.2f}/mês")
+    """Menu de análise: cenário de referência ou simulação personalizada."""
+    while True:
+        print("\n=== ENERGIA E SUSTENTABILIDADE ===")
+        print("1. Ver análise do cenário de referência")
+        print("2. Calcular meu consumo e comparar alternativas")
+        print("0. Voltar ao menu principal")
+        opcao = input("Escolha: ").strip()
 
-    print("\nCOMPARAÇÃO DE ALTERNATIVAS PARA A MESMA ECONOMIA DE ENERGIA")
-    print("1) Eficiência: trocar cinco lâmpadas de 60 W por LED de 9 W.")
-    print(f"   Custo ilustrativo das LEDs (R$ 10/unidade): R$ {r['custo_led_estimado']:.2f}.")
-    print(f"   Retorno simples estimado: {r['retorno_led_meses']:.1f} meses.")
-    print("   Vantagens: baixo investimento, instalação simples e menor consumo contínuo.")
-    print("   Limites: depende das horas de uso e da potência real das lâmpadas substituídas.")
-    print("2) Fonte renovável: microgeração solar fotovoltaica conectada à rede.")
-    print(
-        f"   Potência teórica para gerar cerca de {r['geracao_fv_kwh_mes']:.2f} kWh/mês: {r['potencia_fv_kwp']:.3f} kWp.")
-    print(
-        f"   Custo indicativo por extrapolação: R$ {r['custo_fv_estimado']:.2f}; retorno simples: {r['retorno_fv_meses']:.1f} meses.")
-    print("   Vantagens: geração renovável e redução da energia comprada da rede.")
-    print("   Limites: exige telhado/área adequada, investimento inicial, projeto e aprovação da distribuidora.")
+        if opcao == "0":
+            return
+        if opcao == "1":
+            dados = (
+                QUANTIDADE_LAMPADAS, POTENCIA_ANTIGA_W, POTENCIA_LED_W,
+                HORAS_DIA, DIAS_MES, TARIFA_R_KWH
+            )
+        elif opcao == "2":
+            try:
+                dados = _coletar_dados()
+            except (EOFError, KeyboardInterrupt):
+                print("\nSimulação cancelada.")
+                return
+        else:
+            print("Opção inválida. Digite 0, 1 ou 2.")
+            continue
 
-    print("\nPREMISSAS E LIMITAÇÕES")
-    print("- 30 dias/mês; 5 h/dia; cinco lâmpadas; 60 W antigas e 9 W LED.")
-    print(
-        f"- Tarifa de referência: R$ {TARIFA_R_KWH:.5f}/kWh (média residencial Sudeste, dez/2025; não é a tarifa individual).")
-    print(f"- Produtividade solar de 130 kWh/kWp/mês é uma hipótese de triagem, não simulação do telhado.")
-    print(
-        "- Custo solar usa R$ 3,62/Wp, média Greener para sistema residencial de 2 kWp (jun/2026), extrapolada para potência menor; não é orçamento e pode subestimar o custo de um sistema pequeno.")
-    print(
-        "- Retorno simples ignora manutenção, degradação, financiamento, custo de disponibilidade, Fio B, tributos e mudanças tarifárias.")
-    print(
-        "- A geração real varia com cidade, orientação, inclinação, sombras, clima e perdas. Consulte CRESESB/SunData e um profissional.")
-    print("\nFONTES")
-    print(
-        "MME/ANEEL – Informativo Tarifário 2025: https://www.gov.br/mme/pt-br/assuntos/secretarias/secretaria-nacional-energia-eletrica/informativo-tarifario-do-setor-eletrico/informativo-tarifario-do-setor-eletrico-ano-2025.pdf")
-    print(
-        "Greener – Pesquisa SED, junho/2026: https://greenerstorage.blob.core.windows.net/public/estudos/SED_2S_2026.pdf")
-    print(
-        "INPE – Atlas Brasileiro de Energia Solar: https://www.gov.br/pt-br/servicos/obter-dados-do-atlas-brasileiro-de-energia-solar-atlas-solar")
-    print("CRESESB/CEPEL – SunData: https://www.cresesb.cepel.br/index.php?section=sundata")
-    print(
-        "ANEEL – Tarifas vigentes por distribuidora: https://www.gov.br/aneel/pt-br/centrais-de-conteudos/relatorios-e-indicadores/tarifas-e-informacoes-economico-financeiras")
-    print("\nAviso: os resultados são estimativas educacionais, não garantias de economia ou geração.")
+        quantidade, antiga, led, horas, dias, tarifa = dados
+        resultado = analisar(
+            quantidade=quantidade,
+            potencia_antiga_w=antiga,
+            potencia_led_w=led,
+            horas_dia=horas,
+            dias_mes=dias,
+            tarifa=tarifa,
+        )
+        exibir_resultado(
+            resultado, quantidade, antiga, led, horas, dias, tarifa
+        )
+        input("\nPressione ENTER para voltar ao menu de energia...")
