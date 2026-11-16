@@ -23,11 +23,69 @@ python main.py
 Menu: 1) perguntar em texto livre, 2) navegar por categorias, 3) ver indicadores, 4) exportar CSV, 5) energia e sustentabilidade, 0) sair.
 
 ## Módulo de energia
-A opção **5 — Energia e sustentabilidade** apresenta um cenário estimado de cinco lâmpadas de 60 W usadas cinco horas por dia, comparando a substituição por LEDs de 9 W com a geração fotovoltaica dimensionada para compensar a mesma quantidade mensal de energia. Inclui fórmulas, premissas, custo ilustrativo, retorno simples, limitações e fontes.
+A opção 5 do menu principal apresenta uma funcionalidade interativa de análise energética.
 
-**Importante:** os números são estimativas didáticas, não garantia de economia nem orçamento. A tarifa usada é uma média regional de referência, e a produtividade solar é uma hipótese de triagem. Para dimensionamento real, usar o endereço, dados de irradiação do CRESESB/INPE, tarifa vigente da distribuidora, condições do telhado e regras de compensação.
+O usuário pode escolher entre:
 
-A análise completa, com cálculos e referências, está em [`docs/analise_energetica.md`](docs/analise_energetica.md).
+**1. Ver análise do cenário de referência**
+
+Apresenta uma análise considerando:
+- Cinco lâmpadas convencionais de 60 W.
+- Cinco horas de utilização por dia.
+- Trinta dias de utilização por mês.
+- Substituição por lâmpadas LED de 9 W.
+
+**2. Calcular meu consumo e comparar alternativas**
+
+Permite informar:
+- Quantidade de lâmpadas.
+- Potência das lâmpadas atuais em watts.
+- Potência das lâmpadas LED em watts.
+- Horas de utilização por dia.
+- Dias de utilização por mês.
+- Tarifa de energia em R$/kWh.
+
+Com essas informações, o sistema calcula:
+
+- Consumo mensal antes da substituição.
+- Consumo mensal após a substituição por LED.
+- Economia mensal em kWh.
+- Percentual de redução do consumo.
+- Economia financeira estimada.
+- Custo ilustrativo da substituição das lâmpadas.
+- Estimativa de geração fotovoltaica.
+- Potência teórica necessária para o sistema solar.
+- Custo indicativo e retorno simples estimado.
+
+  ### Exemplo de cálculo
+
+Considerando cinco lâmpadas de 60 W, utilizadas cinco horas por dia durante trinta dias:
+
+Consumo convencional:
+
+45 kWh/mês.
+
+Consumo com lâmpadas LED de 9 W:
+
+6,75 kWh/mês.
+
+Redução estimada:
+
+38,25 kWh/mês, equivalente a 85%.
+
+Considerando uma tarifa de R$ 0,75468/kWh, a economia estimada é de aproximadamente R$ 28,87 por mês.
+
+### Comparação das alternativas
+
+O sistema compara:
+
+- Eficiência energética: substituição de lâmpadas convencionais por LED.
+- Energia renovável: geração de eletricidade por meio de painéis solares fotovoltaicos.
+
+A estimativa solar considera uma produtividade hipotética de 130 kWh/kWp por mês e um custo indicativo de R$ 3,62/Wp.
+
+Esses valores são parâmetros de simulação, não representam orçamento comercial.
+
 
 ## Estrutura
 ```
