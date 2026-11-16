@@ -40,10 +40,10 @@ citizen-assist-ai/
 ├── energia.py                 # novo módulo de energia
 ├── docs/
 │   └── analise_energetica.md  # relatório técnico da contribuição
-└── data/
-    ├── base_conhecimento.json
-    ├── historico.json
-    └── atendimentos.csv
+├── data/
+│   ├── base_conhecimento.json
+│   ├── historico.json
+│   └── atendimentos.csv
 ```
 
 
